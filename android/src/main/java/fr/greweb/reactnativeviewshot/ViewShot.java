@@ -362,10 +362,10 @@ public class ViewShot implements UIBlock {
             if (child instanceof TextureView) {
                 final TextureView tvChild = (TextureView) child;
                 tvChild.setOpaque(false);
-                tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
+                childBitmapBuffer = tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
             } else {
                 final Capturable tvChild = (Capturable) child;
-                tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
+                childBitmapBuffer = tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
             }
 			
             /*final TextureView tvChild = (TextureView) child;
