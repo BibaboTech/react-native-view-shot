@@ -351,17 +351,30 @@ public class ViewShot implements UIBlock {
 
         for (final View child : childrenList) {
             // skip any child that we don't know how to process
-            if (!(child instanceof TextureView)) continue;
+            if (!(child instanceof TextureView) && !(child instanceof Capturable)) continue;
 
             // skip all invisible to user child views
             if (child.getVisibility() != VISIBLE) continue;
 
-            final TextureView tvChild = (TextureView) child;
+
+            // get re-usable bitmap
+            Bitmap childBitmapBuffer = null;
+            if (child instanceof TextureView) {
+                final TextureView tvChild = (TextureView) child;
+                tvChild.setOpaque(false);
+                tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
+            } else {
+                final Capturable tvChild = (Capturable) child;
+                tvChild.getBitmap(getBitmapForScreenshot(child.getWidth(), child.getHeight()));
+            }
+			
+            /*final TextureView tvChild = (TextureView) child;
             tvChild.setOpaque(false); // <-- switch off background fill
 
             // NOTE (olku): get re-usable bitmap. TextureView should use bitmaps with matching size,
             // otherwise content of the TextureView will be scaled to provided bitmap dimensions
             final Bitmap childBitmapBuffer = tvChild.getBitmap(getExactBitmapForScreenshot(child.getWidth(), child.getHeight()));
+			*/
 
             final int countCanvasSave = c.save();
             applyTransformations(c, view, child);
